@@ -1,8 +1,12 @@
 ﻿import json
 import numpy as np
 from pathlib import Path
+from sklearn.preprocessing import StandardScaler
 
 class BehavioralFeatureExtractor:
+    
+    def __init__(self):
+        self.scaler = StandardScaler()
     
     def load_data(self, filepath):
         data = []
@@ -17,29 +21,16 @@ class BehavioralFeatureExtractor:
         if len(movements) < 10:
             return np.zeros(5)
         
-        positions = np.array([(d['x'], d['y']) for d in movements])
-        times = np.array([d['timestamp'] for d in movements])
+        # Use intervals instead of absolute positions
+        intervals = np.array([d['interval'] for d in movements[:100]])
         
-        dx = np.diff(positions[:, 0])
-        dy = np.diff(positions[:, 1])
-        dt = np.diff(times)
-        dt = np.maximum(dt, 1e-6)
-        
-        velocities = np.sqrt(dx**2 + dy**2) / dt
-        
-        if len(velocities) > 1:
-            accelerations = np.diff(velocities) / dt[:-1]
-        else:
-            accelerations = np.array([0])
-        
-        tremor_freq = 10.0 + np.random.normal(0, 0.5)
-        
+        # Simple statistical features from intervals
         features = np.array([
-            np.mean(velocities),
-            np.std(velocities),
-            np.mean(np.abs(accelerations)),
-            np.std(accelerations),
-            tremor_freq
+            np.mean(intervals),           # Avg interval
+            np.std(intervals),            # Interval variance
+            np.median(intervals),         # Median interval
+            np.percentile(intervals, 75), # 75th percentile
+            10.0 + np.random.normal(0, 0.3)  # Simulated tremor freq
         ])
         
         return features
@@ -90,18 +81,34 @@ class BehavioralFeatureExtractor:
         print(f'    Mouse: {mouse_files[0].name}')
         print(f'    Keys: {key_files[0].name}')
         
+        # Extract base features
         features = self.extract_combined_features(mouse_files[0], key_files[0])
         
-        print(f'\n[*] Extracted {len(features)} features:')
-        print(f'    Mouse speed: {features[0]:.2f} px/sec')
-        print(f'    Speed variance: {features[1]:.2f}')
+        print(f'\n[*] Extracted {len(features)} features (BEFORE normalization):')
+        print(f'    Mouse interval avg: {features[0]:.6f}')
+        print(f'    Mouse interval std: {features[1]:.6f}')
         print(f'    Tremor freq: {features[4]:.2f} Hz')
-        print(f'    Flight time: {features[5]:.3f} sec')
+        print(f'    Key flight time: {features[5]:.3f} sec')
         
-        samples = []
+        # Create 100 samples with variations
+        all_samples = []
         for i in range(100):
-            sample_features = features + np.random.normal(0, 0.1, size=features.shape)
-            sample = np.repeat(sample_features[np.newaxis, :], window_size, axis=0)
+            sample_features = features + np.random.normal(0, 0.01, size=features.shape)
+            all_samples.append(sample_features)
+        
+        # Normalize ALL features together
+        all_samples = np.array(all_samples)
+        normalized = self.scaler.fit_transform(all_samples)
+        
+        print(f'\n[*] After normalization:')
+        print(f'    Mean: {np.mean(normalized):.6f}')
+        print(f'    Std: {np.std(normalized):.6f}')
+        print(f'    Range: [{np.min(normalized):.2f}, {np.max(normalized):.2f}]')
+        
+        # Reshape for LSTM: (samples, timesteps, features)
+        samples = []
+        for norm_features in normalized:
+            sample = np.repeat(norm_features[np.newaxis, :], window_size, axis=0)
             samples.append(sample)
         
         dataset = np.array(samples)
@@ -110,11 +117,17 @@ class BehavioralFeatureExtractor:
         print(f'    Shape: {dataset.shape}')
         print(f'    (samples, timesteps, features)')
         
+        # Save scaler for later use
+        import pickle
+        with open('../models/feature_scaler.pkl', 'wb') as f:
+            pickle.dump(self.scaler, f)
+        print(f'[✓] Feature scaler saved')
+        
         return dataset
 
 if __name__ == '__main__':
     print('='*60)
-    print('FEATURE EXTRACTION')
+    print('FEATURE EXTRACTION (NORMALIZED)')
     print('='*60)
     
     extractor = BehavioralFeatureExtractor()

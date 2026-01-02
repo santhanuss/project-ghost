@@ -8,27 +8,30 @@ def generate_mouse_data(num_events=5000, output_file='data/mouse_synthetic.jsonl
     
     data = []
     base_time = time.time()
-    x, y = 500, 500
+    x, y = 500.0, 500.0
     prev_time = base_time
     
     for i in range(num_events):
-        # More realistic movement
-        dx = random.gauss(0, 5)  # Smaller movements
-        dy = random.gauss(0, 5)
+        # Realistic small movements (5-20 pixels)
+        dx = random.gauss(0, 8)
+        dy = random.gauss(0, 8)
         
-        # Natural hand tremor
-        tremor_x = 0.5 * math.sin(2 * math.pi * 10 * i * 0.016)
-        tremor_y = 0.5 * math.cos(2 * math.pi * 10 * i * 0.016)
+        # Natural hand tremor (8-12 Hz, very subtle)
+        tremor_x = 0.3 * math.sin(2 * math.pi * 10 * i * 0.016)
+        tremor_y = 0.3 * math.cos(2 * math.pi * 10 * i * 0.016)
         
         x += dx + tremor_x
         y += dy + tremor_y
         
+        # Keep on screen
         x = max(0, min(1920, x))
         y = max(0, min(1080, y))
         
-        # Realistic timing (60 Hz)
-        current_time = prev_time + 0.016 + random.gauss(0, 0.002)
-        interval = current_time - prev_time
+        # Realistic timing: ~60 Hz (16ms intervals)
+        interval = 0.016 + random.gauss(0, 0.003)
+        interval = max(0.010, min(0.025, interval))  # Between 10-25ms
+        
+        current_time = prev_time + interval
         prev_time = current_time
         
         event = {
@@ -41,6 +44,7 @@ def generate_mouse_data(num_events=5000, output_file='data/mouse_synthetic.jsonl
         
         data.append(event)
         
+        # Occasional clicks
         if random.random() < 0.05:
             click_event = {
                 'timestamp': current_time,
@@ -63,19 +67,24 @@ def generate_keyboard_data(num_events=2000, output_file='data/keys_synthetic.jso
     print(f'[*] Generating {num_events} keyboard events...')
     
     data = []
-    base_time = time.time()
-    avg_flight_time = 0.15
-    current_time = base_time
+    current_time = time.time()
+    
+    # Realistic typing speed: 60 WPM = ~200ms per keystroke
+    avg_flight_time = 0.20
     
     for i in range(num_events):
+        # 90% normal typing, 10% pauses (thinking)
         if random.random() < 0.9:
-            flight_time = random.gauss(avg_flight_time, 0.05)
+            # Normal typing with variation
+            flight_time = random.gauss(avg_flight_time, 0.08)
+            flight_time = max(0.05, min(0.6, flight_time))
         else:
-            flight_time = random.uniform(0.5, 2.0)
+            # Cognitive pause
+            flight_time = random.uniform(0.8, 3.0)
         
-        flight_time = max(0.05, flight_time)
         current_time += flight_time
         
+        # Random key
         keys = 'abcdefghijklmnopqrstuvwxyz '
         key = random.choice(keys)
         
@@ -99,7 +108,8 @@ if __name__ == '__main__':
     print('='*60)
     print('IMPROVED SYNTHETIC DATA GENERATOR')
     print('='*60)
-    print('\nGenerating realistic behavioral data...\n')
+    print('\nGenerating realistic behavioral data...')
+    print('(Fixed: realistic speeds and timings)\n')
     
     mouse_count = generate_mouse_data(num_events=5000)
     key_count = generate_keyboard_data(num_events=2000)
@@ -109,5 +119,5 @@ if __name__ == '__main__':
     print('='*60)
     print(f'Mouse events: {mouse_count}')
     print(f'Keyboard events: {key_count}')
-    print('\nNext: Retrain model with better data')
+    print('\nNext: Extract features and retrain')
     print('='*60)
