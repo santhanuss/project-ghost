@@ -1,0 +1,29 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+
+# Data files (too large)
+phase1/data/*.jsonl
+phase1/data/*.npy
+
+# Model files (too large)
+phase1/models/*.keras
+phase1/models/*.h5
+
+# Logs
+*.log
+phase1/logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
