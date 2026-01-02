@@ -122,9 +122,7 @@ This is a research and educational project. Use responsibly and only on systems 
 
 ## 👤 Author
 
-**Sanu** - Senior Technical Program Manager
-- 20+ years in telecommunications OSS
-- DigiAlert
+**Sanu** 
 
 ## 🔗 Links
 
