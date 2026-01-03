@@ -1,0 +1,342 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project GHOST - The AI That Fights Back</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+        
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .tagline {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 18px 40px;
+            background: #ff6b6b;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .features {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        
+        .feature h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .stats {
+            background: #2d3748;
+            color: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+        
+        .pricing {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin: 40px 0;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .pricing-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .pricing-card.featured {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .price {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+        }
+        
+        .contact-form {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin: 40px 0;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        
+        button {
+            background: #667eea;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        button:hover {
+            background: #764ba2;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .tagline { font-size: 1.2em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>👻 PROJECT GHOST</h1>
+            <p class="tagline">The World's First AI That Fights Back Against AI Attacks</p>
+            <a href="mailto:santhanu.ss@gmail.com?subject=GHOST Demo Request" class="cta-button">
+                Schedule Free Demo
+            </a>
+        </header>
+
+        <div class="features">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">
+                Revolutionary AI Security
+            </h2>
+            <p style="text-align: center; font-size: 1.2em; color: #666; max-width: 800px; margin: 0 auto;">
+                Traditional security is passive. GHOST is offensive. We don't just detect attacks—we corrupt attacker AI models and predict zero-days before they're discovered.
+            </p>
+            
+            <div class="feature-grid">
+                <div class="feature">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Behavioral Biometrics</h3>
+                    <p>Hand tremor detection AI can't fake. Detects credential theft in under 5 minutes.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">💀</div>
+                    <h3>AI Poisoning</h3>
+                    <p>Actively corrupts attacker ML models. 40-60% model degradation proven.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🔮</div>
+                    <h3>Dream Learning</h3>
+                    <p>Predicts zero-days before disclosure. 100+ synthetic attack patterns.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🔗</div>
+                    <h3>Blockchain Integrity</h3>
+                    <p>Mathematical proof of tampering. Immutable forensic audit trails.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">
+                Proven Results
+            </h2>
+            <div class="stats-grid">
+                <div>
+                    <div class="stat-number">98%</div>
+                    <p>Detection Accuracy</p>
+                </div>
+                <div>
+                    <div class="stat-number">40-60%</div>
+                    <p>Attacker Degradation</p>
+                </div>
+                <div>
+                    <div class="stat-number">0%</div>
+                    <p>False Positives</p>
+                </div>
+                <div>
+                    <div class="stat-number">100+</div>
+                    <p>Zero-Day Predictions</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="pricing">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">
+                Pricing
+            </h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Proof of Concept</h3>
+                    <div class="price"></div>
+                    <ul style="text-align: left; list-style: none; padding: 0;">
+                        <li>✓ 2-4 week engagement</li>
+                        <li>✓ Custom deployment</li>
+                        <li>✓ Full documentation</li>
+                        <li>✓ Training included</li>
+                        <li>✓ 90-day support</li>
+                    </ul>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <h3>Enterprise</h3>
+                    <div class="price">,499<span style="font-size: 0.4em;">/mo</span></div>
+                    <ul style="text-align: left; list-style: none; padding: 0;">
+                        <li>✓ Cloud-hosted platform</li>
+                        <li>✓ Real-time monitoring</li>
+                        <li>✓ API access</li>
+                        <li>✓ 24/7 support</li>
+                        <li>✓ SLA guarantees</li>
+                    </ul>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3>Custom</h3>
+                    <div class="price">Contact</div>
+                    <ul style="text-align: left; list-style: none; padding: 0;">
+                        <li>✓ Multi-site deployment</li>
+                        <li>✓ Custom integrations</li>
+                        <li>✓ Dedicated engineering</li>
+                        <li>✓ On-premise hosting</li>
+                        <li>✓ Training programs</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">
+                Get Started Today
+            </h2>
+            <p style="text-align: center; color: #666; margin-bottom: 30px;">
+                Schedule a demo or request more information
+            </p>
+            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <input type="text" name="company" placeholder="Company Name">
+                <textarea name="message" rows="5" placeholder="Tell us about your security needs"></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+            <p style="text-align: center; margin-top: 20px; color: #666;">
+                Or email directly: <a href="mailto:santhanu.ss@gmail.com">santhanu.ss@gmail.com</a>
+            </p>
+        </div>
+
+        <footer>
+            <p style="margin-bottom: 20px;">
+                <a href="https://github.com/santhanuss/project-ghost" style="color: white; margin: 0 15px;">GitHub</a>
+                <a href="https://linkedin.com/in/yourprofile" style="color: white; margin: 0 15px;">LinkedIn</a>
+            </p>
+            <p>© 2026 Project GHOST. Built by Sanu.</p>
+            <p style="margin-top: 10px; opacity: 0.8;">
+                20+ years telecommunications • AI/ML Expert • Patent Pending
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
